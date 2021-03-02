@@ -42,8 +42,8 @@ func (nsc *NetworkSpeedCheck) GetNetworkSpeed(op *Options) (*Response, error) {
 		res, err := nsc.spTest.Start()
 		return &Response{Download: res.Download, Upload: res.Upload}, err
 	case TypeNetflix:
-		fres, err := nsc.nfTest.Start()
-		return nil, nil
+		_, err := nsc.nfTest.Start()
+		return nil, err
 		//return &Response{Download: fres.Download, Upload: fres.Upload}, err
 	}
 	return nil, errors.New("undefined speed check type")
