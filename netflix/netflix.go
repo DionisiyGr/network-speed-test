@@ -1,24 +1,24 @@
 package netflix
 
 import (
-	"fmt"
-
 	"gopkg.in/ddo/go-fast.v0"
 )
 
-type NetflixFast struct {
-}
+//NetflixFast -
+type NetflixFast struct{}
 
+//New is constructor to return NetflixFast instance
 func New() *NetflixFast {
 	return &NetflixFast{}
 }
 
+//Result will return result after benchmarking yourr speed.
+//NOTE: Fast doesnt return upload speed
 type Result struct {
-	Latency  float64
-	Upload   float64
 	Download float64
 }
 
+//Start start function to benchmark your network speed via netflix`s Fast
 func (nf *NetflixFast) Start() (*Result, error) {
 	fastCom := fast.New()
 
@@ -36,18 +36,28 @@ func (nf *NetflixFast) Start() (*Result, error) {
 
 	// measure
 	KbpsChan := make(chan float64)
-
+	var res []float64
 	go func() {
-		for Kbps := range KbpsChan {
-			fmt.Printf("%.2f Kbps %.2f Mbps\n", Kbps, Kbps/1000)
+		for kbps := range KbpsChan {
+			res = append(res, kbps)
 		}
-
-		fmt.Println("done")
 	}()
 
 	err = fastCom.Measure(urls, KbpsChan)
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+
+	return &Result{Download: getAverage(res)}, nil
+}
+
+func getAverage(in []float64) float64 {
+	if in != nil {
+		var sum float64
+		for _, v := range in {
+			sum = sum + v
+		}
+		return sum / float64(len(in))
+	}
+	return 0
 }
