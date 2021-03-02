@@ -41,4 +41,5 @@ func main() {
 ```
 
 ## Note
-Result for GetNetworkSpeed is struct which contains 2 fields - Download speed and Upload speed (Fast supports jusn upload) in kbps
+Result for GetNetworkSpeed is struct which contains 2 fields - Download speed and Upload speed (Fast supports just download) in kbps.
+"Fast" service returns download speed for different urls, so resut would bu just average number.
