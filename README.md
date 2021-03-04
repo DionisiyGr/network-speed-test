@@ -72,6 +72,11 @@ PASS
 ok      github.com/DionisiyGr/network-speed-test/speedtest      7.528s
 ```
 
+To run tests just type
+```
+go test ./...
+```
+
 ## Note
 Result for GetNetworkSpeed is struct which contains 2 fields - Download speed and Upload speed (Fast supports just download) in kbps.
 "Fast" service returns download speed for different urls, so resut would bu just average number.
